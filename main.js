@@ -18,12 +18,15 @@ let config = {
 let game = new Phaser.Game(config);
 
 // VARIABLES
-let player, goal, cursors, textScore, score;
+let player, goal, cursors, textScore, score, winSound;
 
 function preload() {
     this.load.image('player', 'images/gigi.png');
     this.load.image('goal', 'images/lol.png');
     this.load.image('background', 'images/background.png');
+    this.load.audio('winSound', 'audio/boat.mp3');
+    
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 }
 
 function create() {
@@ -42,16 +45,26 @@ function create() {
     goal.setScale(0.2);
 
     // SCORE
-    score = 0;
-    let style = {
-        fontFamily: 'Luckiest Guy', 
-        fontSize: '60px',            
-        color: '#FFD700',            
-        stroke: '#000000',           
-        strokeThickness: 6           
-    };
-    textScore = this.add.text(50, 50, "Score: " + score, style);
-    textScore.setShadow(2, 2, '#333333', 2, true, true); 
+    WebFont.load({
+        google: {
+            families: ['Luckiest Guy']
+        },
+        active: () => {
+            score = 0;
+            let style = {
+                fontFamily: 'Luckiest Guy',
+                fontSize: '60px',
+                color: '#FFD700',
+                stroke: '#000000',
+                strokeThickness: 6
+            };
+            textScore = this.add.text(50, 50, "Score: " + score, style);
+            textScore.setShadow(2, 2, '#333333', 2, true, true);
+        }
+    });
+
+    // AUDIO
+    winSound = this.sound.add('winSound', { volume: 0.1});
 
     // INPUT
     cursors = this.input.keyboard.createCursorKeys();
@@ -80,6 +93,7 @@ function WinGame() {
     score += 100;
     textScore.setText("Score: " + score);
     goal.disableBody(true, true);
+    winSound.play();
     alert("BOAT GOES BINTED!");
     console.log("GIIIII MURINNN!!");
     console.log("AutoFister TSKR: " + score);
