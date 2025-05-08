@@ -57,7 +57,7 @@ class CreditScene extends Phaser.Scene {
 
         createCreditBox(this, 860, 200, 'FULL NAME: Alfonso Aguirre');
         createCreditBox(this, 860, 270, 'SECTION: A224');
-        createCreditBox(this, 860, 340, 'PROGRAM: Game Programming (EMC131)');
+        createCreditBox(this, 860, 340, 'PROGRAM: EMC');
 
         createButton(this, 860, 500, 'BACK', () => this.scene.start('MenuScene'));
     }
